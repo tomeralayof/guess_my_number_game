@@ -1,47 +1,12 @@
-"use strict";
+ "use strict";
 
- let gameStatus = {
-  counter: 20,
-  score: 0,
-  randomNumber : Math.floor(Math.random() * (20 - 1)),
-  decrementCounter: function () {
-    --this.counter;
-  },
-  showCounter: function () {
-    document.querySelector(".label-score").textContent = `💯 Score: ${this.counter}`;
-  },
-
-  showScore : function() {
-      document.querySelector(".highscore").textContent =` ${this.score}`;
-  } 
-};
-
-let setBackground = (color) => {
-  document.body.style.backgroundColor = color;
-};
-
-let setMessage = (msg) => {
-  document.querySelector(".message").textContent = msg;
-};
-
-let setNumber = (randomNumber) => {
-  document.querySelector(".number").textContent = randomNumber;
-};
-
-let decrementAndShowNumber = () => {
-    gameStatus.decrementCounter();
-    gameStatus.showCounter();
-}
-
-let updateMessage = (msg) => {
-    if(gameStatus.counter > 0){
-        setMessage(msg);
-        decrementAndShowNumber();
-    }
-    else {
-        setMessage("you lost the game, please start again...");
-    }
-}
+ import {
+  gameStatus,
+  setBackground,
+  setMessage,
+  setNumber,
+  updateMessage
+} from "./modules/gameFunctions.js"
 
 document.querySelector(".check").addEventListener("click", () => {
     let inputUserVal = document.querySelector(".guess").value;
@@ -54,9 +19,9 @@ document.querySelector(".check").addEventListener("click", () => {
    else {
     setBackground("green");
     setNumber(gameStatus.randomNumber);
-    if(gameStatus.counter > gameStatus.score) {
-        gameStatus.score = gameStatus.counter;
-    }
+      if(gameStatus.counter > gameStatus.score) {
+          gameStatus.score = gameStatus.counter;
+      }
     gameStatus.showScore();
     setMessage("you win !");
   }
@@ -65,9 +30,10 @@ document.querySelector(".check").addEventListener("click", () => {
 document.querySelector(".again").addEventListener("click", () => {
     setBackground("#222");
     setNumber("?");
-    gameStatus.randomNumber = Math.floor(Math.random() * (20 - 0));
+    gameStatus.chooseRandom();
     document.querySelector(".guess").value ="";
     gameStatus.counter = 20;
     setMessage("Start guessing...");
     gameStatus.showCounter();
+    console.log(gameStatus.randomNumber);
 });
